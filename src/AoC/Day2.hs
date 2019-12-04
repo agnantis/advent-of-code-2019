@@ -2,6 +2,7 @@
 
 module AoC.Day2 where
 
+import           Control.Monad                (guard)
 import           Control.Arrow                ((&&&))
 import           Data.IntMap.Strict           (IntMap)
 import qualified Data.IntMap.Strict as I
@@ -29,10 +30,18 @@ fstStar = go 0
 
 
 sndStar :: Input -> Output
-sndStar = undefined
+sndStar inp =
+  let ((noun, verb):_) = do
+        x <- [0..99]
+        y <- [0..99]
+        let val = fstStar . calibrate (x, y) $ inp
+        guard $ val == 19690720
+        pure (x, y)
+  in 100 * noun + verb
 
-calibrate :: Input -> Input
-calibrate = I.insert 2 2 . I.insert 1 12
+
+calibrate :: (Int, Int) -> Input -> Input
+calibrate (i, j) = I.insert 2 j . I.insert 1 i
 
 parse :: String -> Input
 parse = I.fromList 
@@ -43,4 +52,4 @@ parse = I.fromList
 
 main :: IO  ()
 main = readFile "src/input/day2"
-       >>= print . (fstStar &&& sndStar) . calibrate . parse
+       >>= print . (fstStar . calibrate (12, 2) &&& sndStar) . parse
