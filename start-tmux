@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Initializing environment for 'hs-reasoner' project..."
+echo "Initializing environment ..."
 
 SESSION=`basename $PWD`
 
@@ -20,18 +20,6 @@ tmux send-keys "cabal new-repl" C-m
 tmux split-window -v
 tmux send-keys "nix-shell" C-m
 tmux send-keys "find . -type f -name \"*.hs\" | entr hlint src/" C-m
-tmux split-window -v
-tmux send-keys "nix-shell" C-m
-tmux send-keys "find . -type f -name \"*.hs\" | entr doctest src/" C-m
-tmux select-pane -t 0
-
-# second window - testing
-tmux new-window -n TESTING
-tmux send-keys "nix-shell" C-m
-tmux send-keys "nvim" C-m
-tmux split-window -h -p 35
-tmux send-keys "nix-shell" C-m
-tmux send-keys "find . -type f -name \"*.hs\" | entr cabal new-test --test-option=--color" C-m
 tmux select-pane -t 0
 
 # back to IDE

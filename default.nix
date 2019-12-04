@@ -1,4 +1,4 @@
-{ mkDerivation, stdenv, base, containers, megaparsec 
+{ mkDerivation, stdenv, base, containers, megaparsec, text
 , devDeps ? [ ]
 , devSystemDeps ? [ ]
 }:
@@ -10,7 +10,7 @@ mkDerivation {
   isExecutable = true;
   buildDepends = devSystemDeps;
   libraryHaskellDepends = [
-    base containers megaparsec
+    base containers megaparsec text
   ] ++ devDeps;
   executableHaskellDepends = [ base ];
   homepage = "https://github.com/agnantis/advent-of-code-2019";
